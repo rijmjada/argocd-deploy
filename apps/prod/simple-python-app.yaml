@@ -1,0 +1,7 @@
+# Datos de la app (NO es un manifiesto de Kubernetes).
+# El ApplicationSet lee estos campos y genera la Application "simple-python-app-prod".
+name: simple-python-app
+repoURL: https://github.com/rijmjada/simple-python-app-conf.git
+targetRevision: main
+valuesFile: values-prod.yaml
+namespace: simple-python-app

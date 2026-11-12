@@ -1,0 +1,45 @@
+# ApplicationSet de producción.
+# Lee cada archivo apps/prod/*.yaml y crea una Application por archivo.
+# Para dar de alta una app nueva: agregar un archivo en apps/prod/ y hacer push.
+apiVersion: argoproj.io/v1alpha1
+kind: ApplicationSet
+metadata:
+  name: apps-prod
+  namespace: argocd
+spec:
+  goTemplate: true
+  goTemplateOptions: ["missingkey=error"]
+  generators:
+    - git:
+        repoURL: https://github.com/rijmjada/argocd-deploy.git
+        revision: main
+        files:
+          - path: 'apps/prod/*.yaml'
+
+  template:
+    metadata:
+      name: '{{ .name }}-prod'
+      labels:
+        env: prod
+    spec:
+      project: default
+
+      source:
+        repoURL: '{{ .repoURL }}'
+        targetRevision: '{{ .targetRevision }}'
+        path: .
+        helm:
+          valueFiles:
+            - values.yaml
+            - '{{ .valuesFile }}'
+
+      destination:
+        server: https://kubernetes.default.svc
+        namespace: '{{ .namespace }}'
+
+      syncPolicy:
+        automated:
+          prune: true
+          selfHeal: true
+        syncOptions:
+          - CreateNamespace=true
