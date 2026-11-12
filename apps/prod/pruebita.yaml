@@ -3,7 +3,7 @@
 name: noexiste-app
 # "true" = desplegada. "false" = se da de baja (Application y recursos eliminados).
 enabled: "true"
-repoURL:https://github.com/rijmjada/pruebita.git
+repoURL:https://github.com/rijmjada/pruebita-conf.git
 targetRevision: main
 valuesFile: values-prod.yaml
 namespace: noexiste-app
