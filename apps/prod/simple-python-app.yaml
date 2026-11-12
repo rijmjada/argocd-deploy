@@ -2,7 +2,7 @@
 # El ApplicationSet lee estos campos y genera la Application "simple-python-app-prod".
 name: simple-python-app
 # "true" = desplegada. "false" = se da de baja (Application y recursos eliminados).
-enabled: "true"
+enabled: "false"
 repoURL: https://github.com/rijmjada/simple-python-app-conf.git
 targetRevision: main
 valuesFile: values-prod.yaml
