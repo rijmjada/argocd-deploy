@@ -15,12 +15,21 @@ spec:
         revision: main
         files:
           - path: 'apps/prod/*.yaml'
+      # Sólo genera las apps con enabled: "true" (entre comillas, se compara como texto).
+      # Si ponés "false" o borrás el archivo, la Application desaparece.
+      selector:
+        matchLabels:
+          enabled: "true"
 
   template:
     metadata:
       name: '{{ .name }}-prod'
       labels:
         env: prod
+      # Al borrarse la Application, Argo CD elimina también sus recursos del cluster.
+      # Sin esto quedarían huérfanos (deployment, service, etc. seguirían corriendo).
+      finalizers:
+        - resources-finalizer.argocd.argoproj.io
     spec:
       project: default
 
