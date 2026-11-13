@@ -1,0 +1,24 @@
+# Registra el repo platform-deploy en Argo CD.
+# Sincroniza su carpeta app-manager/, que contiene el AppProject "platform" y los
+# ApplicationSets de las herramientas. Desde acá, instalar algo nuevo = push en platform-deploy.
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: platform-manager
+  namespace: argocd
+spec:
+  project: default
+
+  source:
+    repoURL: https://github.com/rijmjada/platform-deploy.git
+    targetRevision: main
+    path: app-manager
+
+  destination:
+    server: https://kubernetes.default.svc
+    namespace: argocd
+
+  syncPolicy:
+    automated:
+      prune: true
+      selfHeal: true
